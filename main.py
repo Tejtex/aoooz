@@ -1,16 +1,16 @@
+
 import nextcord
 from nextcord.ext import commands
+from config import * 
 
-TESTING_GUILD_ID = 1430566095848214602
+intents = nextcord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix="?", intents=intents)
 
-bot = commands.Bot()
 
-@bot.event
-async def on_ready():
-    print(f'We have logged in as {bot.user}')
+initial_extensions = ['cogs.counting', 'cogs.runner']
 
-@bot.slash_command(description="My first slash command", guild_ids=[TESTING_GUILD_ID])
-async def hello(interaction: nextcord.Interaction):
-    await interaction.send("Hello!")
+for extension in initial_extensions:
+    bot.load_extension(extension)
 
-bot.run('your token here')
+bot.run(TOKEN)
